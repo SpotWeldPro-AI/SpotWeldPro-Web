@@ -19,10 +19,17 @@
             .slice(1)
             .split('&')
             .map(function (s) { return s.replace(/~and~/g, '&') })
+          var path = decoded.shift()
+          // 404.html strips the sub-directory prefix when encoding the path.
+          // Re-add it here so BrowserRouter basename="/SpotWeldPro-Web" resolves correctly.
+          var base = l.pathname.replace(/\/$/, '')
+          if (base && path.charAt(0) === '/' && path.indexOf(base) !== 0) {
+            path = base + path
+          }
           window.history.replaceState(
             null,
             null,
-            decoded.shift() + (decoded.length ? '?' + decoded.join('&') : '') + l.hash
+            path + (decoded.length ? '?' + decoded.join('&') : '') + l.hash
           )
         }
       }(window.location))

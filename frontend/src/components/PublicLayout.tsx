@@ -43,17 +43,13 @@ export function PublicLayout({ children }: Props) {
         </Link>
         <div className="pub-nav-links">
           {t.nav.map((n) => (
-            n.to.startsWith('/#')
-              ? <a key={n.to} href={n.to}>{n.label}</a>
-              : (
-                <Link
-                  key={n.to}
-                  to={n.to}
-                  className={isActive(n.to) ? 'active' : undefined}
-                >
-                  {n.label}
-                </Link>
-              )
+            <Link
+              key={n.to}
+              to={n.to}
+              className={isActive(n.to) ? 'active' : undefined}
+            >
+              {n.label}
+            </Link>
           ))}
         </div>
         <button
