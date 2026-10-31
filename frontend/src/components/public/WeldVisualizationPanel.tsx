@@ -48,6 +48,13 @@ export interface VizStrings {
     indicatorLabel: string
     failureModeNote: string
   }
+  energyChart: {
+    title: string
+    insuffLabel: string
+    optimalLabel: string
+    excessiveLabel: string
+    windowLabel: string
+  }
 }
 
 /* ─────────────────────────────────────────────────────────────────
@@ -381,6 +388,59 @@ function RiskIndicator({ labels }: { labels: VizStrings['riskChart'] }) {
 }
 
 /* ─────────────────────────────────────────────────────────────────
+   5. Weld Energy Window — zone bar (I²Rt, illustrative)
+───────────────────────────────────────────────────────────────── */
+function EnergyWindowChart({ labels }: { labels: VizStrings['energyChart'] }) {
+  const W = 220, H = 140
+  const zones = [
+    { label: labels.insuffLabel,   w: 52, x: 22,  color: 'rgba(88,166,255,0.55)'  },
+    { label: labels.optimalLabel,  w: 84, x: 74,  color: 'rgba(52,208,88,0.65)'   },
+    { label: labels.excessiveLabel,w: 58, x: 158, color: 'rgba(248,81,73,0.55)'   },
+  ]
+  const zoneY = 52
+  const zoneH = 34
+  const currentX = 110  // example operating point in optimal zone
+
+  return (
+    <div className="viz-chart-wrap">
+      <div className="viz-chart-title">{labels.title}</div>
+      <svg viewBox={`0 0 ${W} ${H}`} width="100%" aria-hidden="true" className="viz-svg">
+
+        {/* Formula */}
+        <text x={W / 2} y={32} textAnchor="middle" fontSize="9" fontWeight="600"
+              fill="#8b95a8" fontFamily="var(--font-mono)">E = I² · R · t</text>
+
+        {/* Zone bars */}
+        {zones.map(z => (
+          <g key={z.label}>
+            <rect x={z.x} y={zoneY} width={z.w} height={zoneH} rx="3" fill={z.color}/>
+            <text x={z.x + z.w / 2} y={zoneY + zoneH / 2 + 3.5} textAnchor="middle"
+                  fontSize="7.5" fontWeight="600" fill="#eee" fontFamily="var(--font-sans)">{z.label}</text>
+          </g>
+        ))}
+
+        {/* Operating point marker */}
+        <line x1={currentX} y1={zoneY - 8} x2={currentX} y2={zoneY + zoneH + 2}
+              stroke="#34d058" strokeWidth="1.4" strokeDasharray="3 2"/>
+        <circle cx={currentX} cy={zoneY - 10} r="3.5" fill="#34d058"/>
+
+        {/* Axis */}
+        <line x1={22} y1={zoneY + zoneH + 10} x2={216} y2={zoneY + zoneH + 10}
+              stroke="#334" strokeWidth="0.7"/>
+        <text x={W / 2} y={zoneY + zoneH + 24} textAnchor="middle" fontSize="7"
+              fill="#6b7689" fontFamily="var(--font-sans)">{labels.windowLabel} (J)</text>
+
+        {/* Tick marks */}
+        {[22, 74, 158, 216].map(x => (
+          <line key={x} x1={x} y1={zoneY + zoneH + 10} x2={x} y2={zoneY + zoneH + 14}
+                stroke="#445" strokeWidth="0.6"/>
+        ))}
+      </svg>
+    </div>
+  )
+}
+
+/* ─────────────────────────────────────────────────────────────────
    Main panel export
 ───────────────────────────────────────────────────────────────── */
 export function WeldVisualizationPanel({ v }: { v: VizStrings }) {
@@ -394,6 +454,7 @@ export function WeldVisualizationPanel({ v }: { v: VizStrings }) {
         <WeldLobeChart      labels={v.lobeChart} />
         <SensitivityChart   labels={v.sensChart} />
         <RiskIndicator      labels={v.riskChart} />
+        <EnergyWindowChart  labels={v.energyChart} />
       </div>
 
       <p className="viz-demo-note">{v.demoNote}</p>

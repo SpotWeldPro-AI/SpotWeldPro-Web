@@ -38,6 +38,12 @@ export function HowItWorksPage() {
                     <span className="pub-step-val">{s.output}</span>
                   </div>
                   <div className="pub-step-next">{h.nextLabel} {s.next}</div>
+                  {s.callout && (
+                    <div className="pub-step-callout">
+                      <span className="pub-step-callout-icon" aria-hidden="true">↗</span>
+                      {s.callout}
+                    </div>
+                  )}
                 </div>
               </article>
             ))}

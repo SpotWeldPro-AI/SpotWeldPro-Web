@@ -66,6 +66,26 @@ export function LandingPage() {
           </ul>
         </section>
 
+        {/* ── Capability strip ─────────────────────────────────── */}
+        <div className="feat-strip" role="list" aria-label={lang === 'tr' ? 'Temel yetenekler' : 'Key capabilities'}>
+          <div className="feat-strip-item" role="listitem">
+            <span className="feat-strip-num">10</span>
+            <span className="feat-strip-label">{lang === 'tr' ? 'Doğrulanmış Yetenek' : 'Verified Capabilities'}</span>
+          </div>
+          <div className="feat-strip-item" role="listitem">
+            <span className="feat-strip-num">L4–L27</span>
+            <span className="feat-strip-label">{lang === 'tr' ? 'Taguchi Dizileri' : 'Taguchi Arrays'}</span>
+          </div>
+          <div className="feat-strip-item" role="listitem">
+            <span className="feat-strip-num">I²Rt</span>
+            <span className="feat-strip-label">{lang === 'tr' ? 'Enerji Zekası' : 'Energy Intelligence'}</span>
+          </div>
+          <div className="feat-strip-item" role="listitem">
+            <span className="feat-strip-num">6</span>
+            <span className="feat-strip-label">{lang === 'tr' ? 'Hata Modu' : 'Failure Modes'}</span>
+          </div>
+        </div>
+
         {/* ── Module overview ───────────────────────────────────── */}
         <section className="pub-section" aria-labelledby="features-title">
           <h2 id="features-title" className="pub-h2">{l.modulesTitle}</h2>

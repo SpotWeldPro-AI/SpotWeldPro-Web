@@ -41,6 +41,15 @@ export interface Step {
   system: string
   output: string
   next: string
+  callout?: string
+}
+
+export interface FeaturesV2Section {
+  slug: string
+  badge: string
+  inputs: string[]
+  outputs: string[]
+  limitation: string
 }
 
 export interface TrustNote {
@@ -188,7 +197,26 @@ export interface LangContent {
         indicatorLabel: string
         failureModeNote: string
       }
+      energyChart: {
+        title: string
+        insuffLabel: string
+        optimalLabel: string
+        excessiveLabel: string
+        windowLabel: string
+      }
     }
+  }
+
+  featuresV2: {
+    sectionLabel: string
+    sectionSub: string
+    illustrativeNote: string
+    badgeVerified: string
+    badgeExperimental: string
+    inputsLabel: string
+    outputsLabel: string
+    limitationLabel: string
+    sections: FeaturesV2Section[]
   }
 
   // How It Works page strings
@@ -289,46 +317,64 @@ export const PUBLIC_CONTENT: Record<Lang, LangContent> = {
 
     modules: [
       {
-        slug: 'command-center',
-        code: 'CC',
-        name: 'Komuta Merkezi',
-        text: 'Tüm hat genelinde kaynak kalitesi, makine duruşu ve risk özetini tek ekranda izleyin.',
+        slug: 'taguchi-doe',
+        code: 'TD',
+        name: 'Taguchi DOE ve ANOVA',
+        text: 'L4/L9/L16/L27 ortogonal dizileriyle deney tasarımı yapın; varyans analizi (ANOVA) ile parametre katkılarını sıralayın.',
+      },
+      {
+        slug: 'energy-intelligence',
+        code: 'EI',
+        name: 'Kaynak Enerjisi Zekası',
+        text: 'I²Rt formülüyle kaynak enerjisini hesaplayın; enerji penceresi uyumunu, maliyet tasarrufunu ve yıllık CO₂ etkisini değerlendirin.',
+      },
+      {
+        slug: 'multi-spot',
+        code: 'MS',
+        name: 'Çok Noktalı Enerji ve Parça Haritası',
+        text: 'Kaynak noktası başına enerji çıktılarını Pareto sırasıyla listeleyin; parça haritasında yüksek tüketimli bölgeleri belirleyin.',
       },
       {
         slug: 'weld-quality',
         code: 'WQ',
         name: 'Kaynak Kalite Analizi',
-        text: 'Nugget çapı, minimum kabul sınırı ve fışkırma (expulsion) riskine göre kaynağı değerlendirin.',
+        text: 'Nugget çapını, minimum kabul sınırını ve fışkırma riskini değerlendirin; skor, risk düzeyi ve düzeltici önerilerle birlikte sonuç alın.',
       },
       {
         slug: 'weld-lobe',
         code: 'WL',
-        name: 'Kaynak Lobu Laboratuvarı',
-        text: 'Proses penceresini (weld lobe) görselleştirin; akım–süre–kuvvet bölgesini inceleyin.',
+        name: 'Proses Penceresi (Weld Lobe)',
+        text: 'Akım–süre parametrik alanını görselleştirin; Güvenli / Uyarı / Expulsion bölgelerini ve optimal çalışma noktasını belirleyin.',
       },
       {
         slug: 'failure-analysis',
         code: 'FA',
-        name: 'Hata Analizi',
-        text: 'Olası hata modlarını ve birincil katkı faktörlerini risk önceliyle sıralayın.',
+        name: 'Hata Olasılık Analizi',
+        text: '6 hata modu (expulsion, soğuk kaynak, elektrot yapışması, aşınma, LME, kaplama bozulması) için risk olasılığını sıralayın.',
       },
       {
-        slug: 'projects',
-        code: 'PW',
-        name: 'Projeler ve Kaynak Noktaları',
-        text: 'Projeleri, kaynak noktalarını ve parça–istasyon–robot bağlamını yönetin.',
+        slug: 'sensitivity',
+        code: 'SN',
+        name: 'Parametre Duyarlılık Analizi',
+        text: 'Akım, süre ve kuvvet parametrelerinin nugget çapı üzerindeki göreli etkisini sonlu fark yöntemiyle sıralayın.',
       },
       {
-        slug: 'traceability',
-        code: 'TR',
-        name: 'İzlenebilirlik / Geçmiş',
-        text: 'Analiz geçmişini, karar gerekçelerini ve mühendislik kuralı referanslarını koruyun.',
+        slug: 'electrode-engineering',
+        code: 'EE',
+        name: 'Elektrot Mühendisliği',
+        text: 'Malzeme ailesi ve soğutma koşullarına göre elektrot ömrünü ve basamaklı akım profilini tahmin edin.',
       },
       {
-        slug: 'ai-explanation',
+        slug: 'ai-models',
         code: 'AI',
-        name: 'AI Açıklama',
-        text: 'AI, karmaşık sonuçları mühendislik bağlamıyla açıklar; karar kuralları deterministiktir.',
+        name: 'AI Model Kataloğu',
+        text: 'Kullanıcı tarafından kalibre edilen MLR ve RSM nugget tahmin modellerini yönetişim durum etiketleriyle (DOĞRULANMIŞ / DENEYSEL) listeleyin.',
+      },
+      {
+        slug: 'digital-passport',
+        code: 'DP',
+        name: 'Dijital Kaynak Pasaportu',
+        text: '10 aşamalı yaşam döngüsüyle (OLUŞTURULDU → ÜRETİMDE AKTİF → ARŞİVLENDİ) kaynak parametrelerinin yönetimli izlenebilirliğini sağlayın.',
       },
     ],
 
@@ -405,6 +451,7 @@ export const PUBLIC_CONTENT: Record<Lang, LangContent> = {
         system: 'Yığın uyumluluğu ve kalınlık limitleri kontrol edilir.',
         output: 'Doğrulanmış malzeme/yığın bağlamı.',
         next: 'Kaynak parametreleri',
+        callout: 'Elektrot uç çapı ve soğutma parametreleri de burada girilir — Elektrot Mühendisliği modülünün girdileri.',
       },
       {
         no: '03',
@@ -413,6 +460,7 @@ export const PUBLIC_CONTENT: Record<Lang, LangContent> = {
         system: 'Parametreler mühendislik limitlerine karşı değerlendirilir.',
         output: 'Parametre durumu: limit içi / dışı.',
         next: 'Analiz ve mühendislik kontrolleri',
+        callout: 'Taguchi DOE ile sistematik deney tasarımı yapın; parametre katkısını ANOVA ile ölçün.',
       },
       {
         no: '04',
@@ -421,6 +469,7 @@ export const PUBLIC_CONTENT: Record<Lang, LangContent> = {
         system: 'Kalite değerlendirmesi, proses penceresi konumu, risk kontrolü.',
         output: 'Kaynak kalitesi sonucu ve mühendislik yorumu.',
         next: 'Proses penceresi / optimizasyon',
+        callout: 'Enerji Zekası modülü I²Rt enerjisini ve enerji penceresi uyumunu bu adımda raporlar.',
       },
       {
         no: '05',
@@ -429,6 +478,7 @@ export const PUBLIC_CONTENT: Record<Lang, LangContent> = {
         system: 'Operating window incelemesi ve parametre doğrulama.',
         output: 'Current vs recommended delta ve önerilen parametre.',
         next: 'Sonuç, doğrulama ve izlenebilirlik',
+        callout: 'Duyarlılık Analizi parametre önceliğini ölçer. Dijital Kaynak Pasaportu izlenebilirliği bu adımda başlar.',
       },
       {
         no: '06',
@@ -558,7 +608,97 @@ export const PUBLIC_CONTENT: Record<Lang, LangContent> = {
           indicatorLabel: 'Risk Seviyesi (Örnek)',
           failureModeNote: '10 hata modu · önceliğe göre sıralı',
         },
+        energyChart: {
+          title: 'Kaynak Enerjisi Penceresi (I²Rt)',
+          insuffLabel: 'Yetersiz',
+          optimalLabel: 'Optimal',
+          excessiveLabel: 'Aşırı',
+          windowLabel: 'Enerji Penceresi',
+        },
       },
+    },
+
+    featuresV2: {
+      sectionLabel: '10 Doğrulanmış Mühendislik Yeteneği',
+      sectionSub: 'Gerçek uygulama kaynak kodundan doğrulanan yetenekler — her iddia için test kanıtı.',
+      illustrativeNote: 'Gösterim amaçlı örnek değerler — hesaplanmış sonuç değildir.',
+      badgeVerified: 'DOĞRULANMIŞ',
+      badgeExperimental: 'DENEYSEL',
+      inputsLabel: 'Girişler',
+      outputsLabel: 'Çıktılar',
+      limitationLabel: 'Sınırlama',
+      sections: [
+        {
+          slug: 'taguchi-doe',
+          badge: 'verified',
+          inputs: ['Faktör adları ve seviyeleri (2–4 faktör)', 'Dizi tipi: L4 / L9 / L16 / L27', 'Ölçülen deney yanıtları (kullanıcı girer)'],
+          outputs: ['Tasarlanmış deney koşulları (run matrisi)', 'S/N oranı ve ana etkiler tablosu', 'Optimal parametre kombinasyonu'],
+          limitation: 'Model ölçülen verileri kullanır; yanıt değerlerini tahmin etmez.',
+        },
+        {
+          slug: 'energy-intelligence',
+          badge: 'verified',
+          inputs: ['Kaynak akımı (kA, RMS)', 'Kaynak direnci (µΩ)', 'Kaynak süresi (çevrim) ve frekans (Hz)'],
+          outputs: ['Kaynak enerjisi (J / Wh / kWh)', 'Enerji penceresi durumu (OPTIMAL / KABUL EDİLEBİLİR / AŞIRI)', 'Yıllık maliyet ve CO₂ farkı'],
+          limitation: 'Sabit direnç varsayımı; dinamik direnç değişimi modellenmez.',
+        },
+        {
+          slug: 'multi-spot',
+          badge: 'verified',
+          inputs: ['Kaynak noktası listesi (akım + direnç + çevrim)', 'İstasyon ve parça gruplaması'],
+          outputs: ['Nokta başına enerji (Pareto sıralamasıyla)', 'Grup özetleri ve parça haritası', 'En yüksek enerji tüketen noktalar'],
+          limitation: 'Noktalar arası şant akımı hesabı yapılmaz (yalnızca bayrak girişi).',
+        },
+        {
+          slug: 'weld-quality',
+          badge: 'verified',
+          inputs: ['Akım (kA), süre (çevrim), kuvvet (kN)', 'Malzeme ailesi ve sac kalınlıkları', 'Elektrot uç çapı ve soğutma parametreleri'],
+          outputs: ['0–100 kalite skoru ve risk düzeyi', 'Hesaplanan nugget aralığı (min / opt)', 'Parametre uyum tablosu ve düzeltici öneriler'],
+          limitation: 'Referans profil 2T istifine özeldir; 4T desteklenmez.',
+        },
+        {
+          slug: 'weld-lobe',
+          badge: 'verified',
+          inputs: ['Malzeme ailesi ve kalınlık', 'Akım / süre / kuvvet tarama aralıkları', 'Minimum nugget çapı hedefi'],
+          outputs: ['Bölge haritası (Güvenli / Uyarı / Expulsion / Yetersiz Füzyon)', 'En iyi aday parametre seti', 'Expulsion ve füzyon riski skorları'],
+          limitation: 'Ampirik model; deneysel kalibrasyon verisi içermez.',
+        },
+        {
+          slug: 'failure-analysis',
+          badge: 'verified',
+          inputs: ['Malzeme ailesi ve kaplama durumu', 'Parametre sapması önerilen aralıklardan', 'Şant riski ve yapıştırıcı bayrakları'],
+          outputs: ['6 hata modu için olasılık (expulsion, soğuk kaynak, yapışma, aşınma, LME, kaplama)', 'Katkı faktörü sıralaması ve önerilen eylemler', 'Doğrulama kontrol listesi'],
+          limitation: 'Sapma tabanlı model; göreceli sonuçlar — nicel kalibrasyon verisi gerekmez.',
+        },
+        {
+          slug: 'sensitivity',
+          badge: 'verified',
+          inputs: ['Referans parametre noktası (akım, süre, kuvvet)', 'Pertürbasyon oranı: ±%5 (sabit)'],
+          outputs: ['Parametre başına duyarlılık (mm / birim)', 'Mutlak etki ve öncelik sıralaması'],
+          limitation: 'Yalnızca 3 parametre; etkileşim terimleri dahil değil.',
+        },
+        {
+          slug: 'electrode-engineering',
+          badge: 'verified',
+          inputs: ['Malzeme ailesi, kaplama, soğutma debisi ve sıcaklığı', 'Uç çapı ve yıllık kaynak adedi'],
+          outputs: ['Tahmini elektrot ömrü (kaynak adedi)', 'Kaplama sıklığı ve yıllık değiştirme sayısı', 'Basamaklı akım profili'],
+          limitation: 'Ampirik model; güven düzeyi düşük–orta. Gerçek bakım verisiyle kalibrasyon önerilir.',
+        },
+        {
+          slug: 'ai-models',
+          badge: 'experimental',
+          inputs: ['Kullanıcı tarafından ölçülmüş kalibrasyon verisi (akım–süre–kuvvet → nugget)', 'Model tipi: MLR veya RSM'],
+          outputs: ['Uyarlanmış katsayılar, R², RMSE, MAE', 'VIF tablosu ve Cook\'s D aykırı nokta tespiti', 'Yönetişim durum rozeti (DOĞRULANMIŞ / DENEYSEL)'],
+          limitation: 'Üretim yönlendiricisinde aktif değil. Kullanıcı kalibrasyon verisi zorunludur.',
+        },
+        {
+          slug: 'digital-passport',
+          badge: 'verified',
+          inputs: ['Kaynak parametreleri ve mühendislik açıklamaları', 'Revizyon tetikleyicileri ve onay adımları'],
+          outputs: ['10 aşamalı yaşam döngüsü izlenebilirliği', 'Yönetimli denetim izi ve revizyon geçmişi', 'Üretim aktif / arşivlenmiş durum yönetimi'],
+          limitation: 'Altyapı API katmanı; web UI arayüzü henüz mevcut değil.',
+        },
+      ],
     },
 
     howItWorks: {
@@ -688,46 +828,64 @@ export const PUBLIC_CONTENT: Record<Lang, LangContent> = {
 
     modules: [
       {
-        slug: 'command-center',
-        code: 'CC',
-        name: 'Command Center',
-        text: 'Monitor weld quality, machine downtime, and risk summary across the entire line on one screen.',
+        slug: 'taguchi-doe',
+        code: 'TD',
+        name: 'Taguchi DOE & ANOVA',
+        text: 'Design experiments with L4/L9/L16/L27 orthogonal arrays; rank parameter contributions with variance analysis (ANOVA).',
+      },
+      {
+        slug: 'energy-intelligence',
+        code: 'EI',
+        name: 'Welding Energy Intelligence',
+        text: 'Compute weld energy with the I²Rt formula; evaluate energy window compliance, cost savings, and annual CO₂ impact.',
+      },
+      {
+        slug: 'multi-spot',
+        code: 'MS',
+        name: 'Multi-Spot Energy & Part Map',
+        text: 'List weld point energy outputs ranked by Pareto; identify high-consumption zones on the part map.',
       },
       {
         slug: 'weld-quality',
         code: 'WQ',
         name: 'Weld Quality Analysis',
-        text: 'Evaluate welds against nugget diameter, minimum acceptance threshold, and expulsion risk.',
+        text: 'Evaluate nugget diameter, minimum acceptance threshold, and expulsion risk; receive a score, risk level, and corrective recommendations.',
       },
       {
         slug: 'weld-lobe',
         code: 'WL',
-        name: 'Weld Lobe Lab',
-        text: 'Visualize the process window (weld lobe); examine the current–time–force region.',
+        name: 'Process Window (Weld Lobe)',
+        text: 'Visualize the current–time parameter space; identify Safe / Warning / Expulsion zones and the optimal operating point.',
       },
       {
         slug: 'failure-analysis',
         code: 'FA',
-        name: 'Failure Analysis',
-        text: 'Rank probable failure modes and primary contributing factors by risk priority.',
+        name: 'Failure Probability Analysis',
+        text: 'Rank risk probabilities for 6 failure modes: expulsion, cold weld, electrode sticking, wear, LME, and coating breakdown.',
       },
       {
-        slug: 'projects',
-        code: 'PW',
-        name: 'Projects & Weld Points',
-        text: 'Manage projects, weld points, and part–station–robot context.',
+        slug: 'sensitivity',
+        code: 'SN',
+        name: 'Parameter Sensitivity Analysis',
+        text: 'Rank the relative impact of current, time, and force on nugget diameter using finite-difference perturbation.',
       },
       {
-        slug: 'traceability',
-        code: 'TR',
-        name: 'Traceability / History',
-        text: 'Preserve analysis history, decision rationale, and engineering rule references.',
+        slug: 'electrode-engineering',
+        code: 'EE',
+        name: 'Electrode Engineering',
+        text: 'Estimate electrode life and stepped current profile based on material family and cooling conditions.',
       },
       {
-        slug: 'ai-explanation',
+        slug: 'ai-models',
         code: 'AI',
-        name: 'AI Explanation',
-        text: 'AI explains complex results with engineering context; decision rules are deterministic.',
+        name: 'AI Model Catalog',
+        text: 'Browse user-calibrated MLR and RSM nugget prediction models with governance status labels (VALIDATED / EXPERIMENTAL).',
+      },
+      {
+        slug: 'digital-passport',
+        code: 'DP',
+        name: 'Digital Weld Passport',
+        text: 'Governed traceability for weld parameters through a 10-state lifecycle (CREATED → PRODUCTION ACTIVE → ARCHIVED).',
       },
     ],
 
@@ -804,6 +962,7 @@ export const PUBLIC_CONTENT: Record<Lang, LangContent> = {
         system: 'Stack compatibility and thickness limits are checked.',
         output: 'Validated material/stack context.',
         next: 'Welding parameters',
+        callout: 'Electrode tip diameter and cooling parameters are also entered here — inputs for the Electrode Engineering module.',
       },
       {
         no: '03',
@@ -812,6 +971,7 @@ export const PUBLIC_CONTENT: Record<Lang, LangContent> = {
         system: 'Parameters are evaluated against engineering limits.',
         output: 'Parameter status: within / outside limits.',
         next: 'Analysis and engineering checks',
+        callout: 'Use Taguchi DOE for systematic experiment design; measure parameter contributions with ANOVA.',
       },
       {
         no: '04',
@@ -820,6 +980,7 @@ export const PUBLIC_CONTENT: Record<Lang, LangContent> = {
         system: 'Quality assessment, process window position, risk check.',
         output: 'Weld quality result and engineering interpretation.',
         next: 'Process window / optimization',
+        callout: 'The Energy Intelligence module reports I²Rt energy and energy window compliance at this step.',
       },
       {
         no: '05',
@@ -828,6 +989,7 @@ export const PUBLIC_CONTENT: Record<Lang, LangContent> = {
         system: 'Operating window review, DOE/optimization proposal.',
         output: 'Current vs recommended delta and proposed parameter.',
         next: 'Result, validation and traceability',
+        callout: 'Sensitivity Analysis ranks parameter priority. Digital Weld Passport traceability begins at this step.',
       },
       {
         no: '06',
@@ -957,7 +1119,97 @@ export const PUBLIC_CONTENT: Record<Lang, LangContent> = {
           indicatorLabel: 'Risk Level (Example)',
           failureModeNote: '10 failure modes · ranked by priority',
         },
+        energyChart: {
+          title: 'Weld Energy Window (I²Rt)',
+          insuffLabel: 'Insufficient',
+          optimalLabel: 'Optimal',
+          excessiveLabel: 'Excessive',
+          windowLabel: 'Energy Window',
+        },
       },
+    },
+
+    featuresV2: {
+      sectionLabel: '10 Verified Engineering Capabilities',
+      sectionSub: 'Capabilities verified from real application source code — test evidence for every claim.',
+      illustrativeNote: 'Illustrative example values — not computed results.',
+      badgeVerified: 'VERIFIED',
+      badgeExperimental: 'EXPERIMENTAL',
+      inputsLabel: 'Inputs',
+      outputsLabel: 'Outputs',
+      limitationLabel: 'Limitation',
+      sections: [
+        {
+          slug: 'taguchi-doe',
+          badge: 'verified',
+          inputs: ['Factor names and levels (2–4 factors)', 'Array type: L4 / L9 / L16 / L27', 'Measured experiment responses (user-supplied)'],
+          outputs: ['Designed experiment run matrix', 'S/N ratio and main effects table', 'Optimal parameter combination'],
+          limitation: 'Uses measured data; does not predict response values.',
+        },
+        {
+          slug: 'energy-intelligence',
+          badge: 'verified',
+          inputs: ['Welding current (kA, RMS)', 'Weld resistance (µΩ)', 'Weld cycles and frequency (Hz)'],
+          outputs: ['Weld energy (J / Wh / kWh)', 'Energy window status (OPTIMAL / ACCEPTABLE / EXCESSIVE)', 'Annual cost and CO₂ delta'],
+          limitation: 'Constant resistance assumption; dynamic resistance transient not modelled.',
+        },
+        {
+          slug: 'multi-spot',
+          badge: 'verified',
+          inputs: ['Weld point list (current + resistance + cycles)', 'Station and part grouping'],
+          outputs: ['Per-point energy ranked by Pareto', 'Group summaries and part map', 'Highest-consumption weld points'],
+          limitation: 'No shunt current transfer calculation (shunting is a boolean flag only).',
+        },
+        {
+          slug: 'weld-quality',
+          badge: 'verified',
+          inputs: ['Current (kA), weld cycles, force (kN)', 'Material family and sheet thicknesses', 'Electrode tip diameter and cooling parameters'],
+          outputs: ['0–100 quality score and risk level', 'Computed nugget range (min / opt)', 'Parameter compliance table and corrective recommendations'],
+          limitation: 'Reference profile is for 2T stack only; 4T is not supported.',
+        },
+        {
+          slug: 'weld-lobe',
+          badge: 'verified',
+          inputs: ['Material family and thickness', 'Current / time / force scan ranges', 'Minimum nugget diameter target'],
+          outputs: ['Zone map (Safe / Warning / Expulsion / Insufficient Fusion)', 'Best candidate parameter set', 'Expulsion and fusion risk scores'],
+          limitation: 'Empirical model; does not include experimental calibration data.',
+        },
+        {
+          slug: 'failure-analysis',
+          badge: 'verified',
+          inputs: ['Material family and coating flag', 'Parameter deviation from recommended ranges', 'Shunt risk and adhesive flags'],
+          outputs: ['Probability for 6 failure modes (expulsion, cold weld, sticking, wear, LME, coating)', 'Contributing factor ranking and corrective actions', 'Validation checklist'],
+          limitation: 'Deviation-based model; relative results — no experimental calibration required.',
+        },
+        {
+          slug: 'sensitivity',
+          badge: 'verified',
+          inputs: ['Reference parameter point (current, cycles, force)', 'Perturbation ratio: ±5% (fixed)'],
+          outputs: ['Per-parameter sensitivity (mm / unit)', 'Absolute impact and priority rank'],
+          limitation: 'Only 3 parameters analysed; interaction terms not included.',
+        },
+        {
+          slug: 'electrode-engineering',
+          badge: 'verified',
+          inputs: ['Material family, coating, cooling flow rate and temperature', 'Tip diameter and annual weld count'],
+          outputs: ['Estimated electrode life (weld count)', 'Dress interval and annual replacements', 'Stepped current profile'],
+          limitation: 'Empirical model; confidence: Low–Medium. Calibration with real maintenance data is recommended.',
+        },
+        {
+          slug: 'ai-models',
+          badge: 'experimental',
+          inputs: ['User-supplied calibration data (current–cycles–force → nugget)', 'Model type: MLR or RSM'],
+          outputs: ['Fitted coefficients, R², RMSE, MAE', 'VIF table and Cook\'s D outlier detection', 'Governance status badge (VALIDATED / EXPERIMENTAL)'],
+          limitation: 'Not active in production router. User calibration data is required.',
+        },
+        {
+          slug: 'digital-passport',
+          badge: 'verified',
+          inputs: ['Weld parameters and engineering descriptions', 'Revision triggers and approval steps'],
+          outputs: ['10-state lifecycle traceability', 'Governed audit trail and revision history', 'Production-active / archived state management'],
+          limitation: 'Infrastructure API layer; no web UI page currently available.',
+        },
+      ],
     },
 
     howItWorks: {

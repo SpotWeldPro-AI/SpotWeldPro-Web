@@ -114,7 +114,7 @@ export function PublicLayout({ children }: Props) {
               <li><Link to="/features#weld-quality">{t.modules.find(m => m.slug === 'weld-quality')?.name}</Link></li>
               <li><Link to="/features#weld-lobe">{t.modules.find(m => m.slug === 'weld-lobe')?.name}</Link></li>
               <li><Link to="/features#failure-analysis">{t.modules.find(m => m.slug === 'failure-analysis')?.name}</Link></li>
-              <li><Link to="/demo">{f.energyIntelLabel}</Link></li>
+              <li><Link to="/features#energy-intelligence">{f.energyIntelLabel}</Link></li>
             </ul>
           </div>
 
@@ -122,9 +122,9 @@ export function PublicLayout({ children }: Props) {
           <div className="pub-footer-col">
             <h3 className="pub-footer-col-title">{f.aiTitle}</h3>
             <ul className="pub-footer-links">
-              <li><Link to="/demo">{f.modelCatalogLabel}</Link></li>
-              <li><Link to="/demo">Taguchi DOE &amp; ANOVA</Link></li>
-              <li><Link to="/features#projects">{t.modules.find(m => m.slug === 'projects')?.name}</Link></li>
+              <li><Link to="/features#ai-models">{f.modelCatalogLabel}</Link></li>
+              <li><Link to="/features#taguchi-doe">{t.modules.find(m => m.slug === 'taguchi-doe')?.name}</Link></li>
+              <li><Link to="/features#digital-passport">{t.modules.find(m => m.slug === 'digital-passport')?.name}</Link></li>
             </ul>
           </div>
 
